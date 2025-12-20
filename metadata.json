@@ -1,0 +1,8 @@
+{
+  "name": "Tiwaton Payflow",
+  "description": "Tiwaton's high-performance settlement product, Payflow. Collect global payments and manage payroll with ease.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

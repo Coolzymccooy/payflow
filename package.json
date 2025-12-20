@@ -1,0 +1,43 @@
+{
+  "name": "tiwaton-payflow",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "tsx server.ts",
+    "server:watch": "nodemon --watch . --ext ts,tsx --exec \"tsx server.ts\"",
+    "dev:all": "concurrently -n SERVER,WEB -c auto --raw \"npm run server:watch\" \"npm run dev\"",
+    "start": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=5051 tsx server.ts",
+    "prod:local": "npm run build && cross-env NODE_ENV=production HOST=127.0.0.1 PORT=5051 tsx server.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^1.33.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "lucide-react": "^0.561.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "recharts": "^3.5.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.11",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  },
+  "description": "<div align=\"center\"> <img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" /> </div>",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
