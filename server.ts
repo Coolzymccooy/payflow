@@ -257,7 +257,12 @@ app.post("/api/ai/insights", authenticate, async (req, res) => {
 // --- Serve frontend build when dist exists (production-like behavior) ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const distPath = path.resolve(__dirname, "dist");
+
+// We serve the Vite build output from <projectRoot>/dist.
+// Using process.cwd() keeps this correct both in dev (tsx server.ts) and
+// in production (node dist-server/server.js).
+const projectRoot = process.cwd();
+const distPath = path.resolve(projectRoot, "dist");
 
 console.log("STATIC_CHECK", { distPath, distExists: fs.existsSync(distPath) });
 

@@ -1,59 +1,38 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PayFlow - Merchant Terminal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              // Rule 3.1: Colours have roles. 
-              // Base: Cool Slates
-              brand: {
-                50: '#f8fafc',
-                100: '#e2e8f0', // Borders
-                500: '#64748b', // Muted text
-                900: '#0f172a', // Deep Slate (Primary Text)
-                950: '#020617', // Black/Backgrounds
-              },
-              // Signal Role: International Orange (Interaction / Focus)
-              // Rule 2.1: Technical/Serious tone (Industrial Safety Color)
-              action: {
-                50: '#fff7ed',
-                100: '#ffedd5',
-                500: '#f97316', // Primary Action
-                600: '#ea580c', // Hover
-                900: '#7c2d12',
-              },
-              // Data Categorization Colors (Rule 1.2: Justified by data type)
-              data: {
-                emerald: '#059669', // Revenue
-                blue: '#2563eb',    // Volume
-                violet: '#7c3aed',  // Customers
-                rose: '#e11d48',    // Churn/Risk
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['"IBM Plex Mono"', 'monospace'], 
-            },
-            boxShadow: {
-              // Rule 6.2: Shadows serve hierarchy. Sharp, technical shadows.
-              'sm': '0 1px 0 0 rgba(0,0,0,0.05)',
-              'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-            }
-          }
-        }
-      }
-    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
       body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-      /* Rule 9: Microtext precision */
       .font-mono-nums { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+      
+      /* Essential Treasury Mirror Visualizers */
+      @keyframes flow { 
+        0% { left: 0%; opacity: 0; } 
+        20% { opacity: 1; } 
+        80% { opacity: 1; } 
+        100% { left: 100%; opacity: 0; } 
+      }
+      @keyframes flow-reverse { 
+        0% { right: 0%; opacity: 0; } 
+        20% { opacity: 1; } 
+        80% { opacity: 1; } 
+        100% { right: 100%; opacity: 0; } 
+      }
+      .animate-flow { animation: flow 3s linear infinite; }
+      .animate-flow-reverse { animation: flow-reverse 3s linear infinite; }
+      
+      @keyframes scan {
+        0%, 100% { top: 0; }
+        50% { top: 100%; }
+      }
+      
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
   <script type="importmap">
 {
@@ -69,9 +48,10 @@
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+  <script type="module" src="/src/index.tsx"></script>
 </body>
 </html>

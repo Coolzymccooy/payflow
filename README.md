@@ -1,20 +1,52 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Payflow OS - Institutional Terminal
 
-# Run and deploy your AI Studio app
+Payflow OS is a high-performance, AI-native operating system for global commerce, treasury management, and workforce governance.
 
-This contains everything you need to run your app locally.
+## 🚀 Deployment Guide
 
-View your app in AI Studio: https://ai.studio/apps/drive/1oksR0VB2X0fN96CW9GoOMKhU2fOSdUBh
+### 1. Prerequisites
+- **Node.js**: v18+
+- **API Key**: A valid Gemini API Key (Gemini 2.5/3 series)
 
-## Run Locally
+### 2. Environment Setup
+The application requires the API key to be available via `process.env.API_KEY`. 
 
-**Prerequisites:**  Node.js
+```bash
+# Unix/macOS
+export API_KEY=your_key_here
 
+# Windows
+set API_KEY=your_key_here
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 3. Execution
+The system operates on a bimodal architecture:
+
+**A. Backend (Persistence & Logic):**
+```bash
+npm install express cors
+node server.ts
+```
+
+**B. Frontend (UI/UX):**
+Serve the root directory using a development server (e.g., `vite` or `live-server`).
+```bash
+npm install
+npm run dev
+```
+
+## 🏗️ Technical Architecture
+
+- **Core**: React 19 (ESM)
+- **Styling**: Tailwind CSS (Industrial Role-based palette)
+- **Intelligence**: Gemini-3-Flash / Pro (Oracle Reasoning)
+- **Infrastructure**: Distributed HSM-inspired signing logic
+- **Charts**: Recharts (High-fidelity telemetry)
+
+## 🛡️ Security Protocols
+- **AES-256-GCM**: All session data is simulated as encrypted via local hardware enclaves.
+- **Bilateral Handshakes**: Cross-border trades require multi-sig authorization via the Governance Console.
+- **Oracle Verification**: Documents uploaded to the Compliance Sentinel are parsed via Gemini Vision for authenticity.
+
+---
+© 2025 TIWATON GLOBAL INC. // SECURE_MESH_v4.1
