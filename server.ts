@@ -117,8 +117,43 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
 });
 
+// One-shot sync for dashboards (frontend bootstrapping)
+app.get("/api/sync-all", authenticate, (_req, res) => {
+  res.json({
+    ok: true,
+    time: new Date().toISOString(),
+    regions: db.regions,
+    approvals: db.approvals,
+    wallets: db.wallets,
+    transactions: db.transactions,
+    collections: db.collections,
+    webhooks: db.webhookEvents,
+    employees: db.employees,
+    partnerships: db.partnerships,
+  });
+});
+
+
 // Regions
 app.get("/api/regions", authenticate, (_req, res) => res.json(db.regions));
+
+// Public remittance tracking (no auth required)
+app.get("/api/remittance/track", (req, res) => {
+  const id = String(req.query.id || "").trim();
+  const phone = String(req.query.phone || "").trim();
+  if (!id || !phone) return res.status(400).json({ error: "ID_AND_PHONE_REQUIRED" });
+
+  return res.json({
+    ok: true,
+    trackingId: id,
+    phoneMasked: phone.replace(/.(?=.{4})/g, "*"),
+    status: ["PROCESSING", "IN_TRANSIT", "DELIVERED"][Math.floor(Math.random() * 3)],
+    lastUpdated: new Date().toISOString(),
+    corridor: "UK->NG",
+    etaMinutes: 5 + Math.floor(Math.random() * 55),
+  });
+});
+
 
 app.post("/api/regions", authenticate, (req, res) => {
   const newRegion = {
@@ -225,8 +260,13 @@ app.post("/api/strategic/bind", authenticate, (req, res) => {
 // AI Insights
 app.post("/api/ai/insights", authenticate, async (req, res) => {
   try {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) return res.status(500).json({ error: "MISSING_API_KEY" });
+    const apiKey =
+  process.env.GEMINI_API_KEY ||
+  process.env.API_KEY ||
+  process.env.VITE_API_KEY; // fallback if you already used this name
+
+if (!apiKey) return res.status(500).json({ error: "MISSING_API_KEY" });
+
 
     const { prompt } = req.body || {};
     if (!prompt) return res.status(400).json({ error: "PROMPT_REQUIRED" });

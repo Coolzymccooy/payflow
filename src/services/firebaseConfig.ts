@@ -1,12 +1,12 @@
 
 // Replace with your actual configuration from Firebase Console
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "your-app.firebaseapp.com",
-  projectId: "your-app-id",
-  storageBucket: "your-app.appspot.com",
+  apiKey: "AIzaSyAuc_qVtzxpk1EeahGt-_KoBEMxOTdBm5U",
+  authDomain: "your-app.firebtiwaton-family-adventure.aseapp.com",
+  projectId: "tiwaton-family-adventure",
+  storageBucket: "tiwaton-family-adventure.firebasestorage.app",
   messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456",
+  appId: "1:53083980470:web:43aac5d4d5f76c08f61c17",
   measurementId: "G-XXXXXXXXXX"
 };
 
