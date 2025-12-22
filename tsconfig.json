@@ -16,14 +16,14 @@
     "moduleDetection": "force",
     "noEmit": true,
 
-    "types": ["node"],
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
 
-  "include": ["src", "services", "server", "types"],
+  "include": [
+    "src"
+  ],
   "exclude": ["dist", "node_modules"]
 }

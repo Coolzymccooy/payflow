@@ -68,34 +68,42 @@ export const PublicRemittance: React.FC<PublicRemittanceProps> = ({ onBack }) =>
         { name: 'Retail Apps (Lemfi/Wise)', markup: 0.015 },      // 1.5% spread
     ];
 
-    const generateRateInsight = async () => {
-        setAiInsight(null);
-        setIsCalculating(true);
-        
-        const fallback = isReversed 
-            ? "Bilateral Ledger Mirroring enables NGN liquidity to be swapped directly for GBP reserves at the London Node, bypassing the 3-day interbank wait."
-            : "By mirroring internal Naira liquidity from merchant collections, Payflow eliminates the interbank intermediary spread entirely, enabling T+0 settlement.";
-        
-        if (!process.env.API_KEY) {
-            setAiInsight(fallback);
-            setIsCalculating(false);
-            return;
-        }
+   const generateRateInsight = async () => {
+  setAiInsight(null);
+  setIsCalculating(true);
 
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        try {
-            const response = await ai.models.generateContent({
-                model: 'gemini-3-flash-preview',
-                contents: `Context: Payflow OS offers a rate of ${liveRate.toFixed(isReversed ? 6 : 2)} ${toCurrency}/${fromCurrency}. 
-                Explain in exactly one short technical sentence why this rate is superior because we use 'Bilateral Ledger Mirroring' and 'Internal Liquidity Pools'.`
-            });
-            setAiInsight(response.text || fallback);
-        } catch (e) {
-            setAiInsight(fallback);
-        } finally {
-            setIsCalculating(false);
-        }
-    };
+  const fallback = isReversed
+    ? "Bilateral Ledger Mirroring enables NGN liquidity to be swapped directly for GBP reserves at the London Node, bypassing the 3-day interbank wait."
+    : "By mirroring internal Naira liquidity from merchant collections, Payflow eliminates the interbank intermediary spread entirely, enabling T+0 settlement.";
+
+  try {
+    const res = await fetch("/api/ai/insights", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: `Context: Payflow OS offers a rate of ${liveRate.toFixed(isReversed ? 6 : 2)} ${toCurrency}/${fromCurrency}.
+Explain in exactly ONE short technical sentence why this rate is superior because we use "Bilateral Ledger Mirroring" and "Internal Liquidity Pools".`
+      })
+    });
+
+    if (!res.ok) {
+      setAiInsight(fallback);
+      return;
+    }
+
+    const data = await res.json();
+    const text =
+      typeof data === "string"
+        ? data
+        : (data?.text ?? data?.result ?? data?.answer ?? "");
+
+    setAiInsight(text || fallback);
+  } catch {
+    setAiInsight(fallback);
+  } finally {
+    setIsCalculating(false);
+  }
+};
 
     useEffect(() => {
         const timer = setTimeout(() => {

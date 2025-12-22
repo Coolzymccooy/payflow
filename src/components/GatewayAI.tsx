@@ -32,43 +32,56 @@ export const GatewayAI: React.FC<GatewayAIProps> = ({ onPreview, onSettle }) => 
     const [simLogs, setSimLogs] = useState<string[]>([]);
 
     const handleGenerate = async () => {
-        if (!prompt || !process.env.API_KEY) return;
-        setIsGenerating(true);
-        
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        
-        try {
-            const response = await ai.models.generateContent({
-                model: "gemini-3-flash-preview",
-                contents: `Create a professional payment landing page for: "${prompt}". 
-                Theme Style requested: ${activeTheme}.
-                Include a compelling headline, a subheadline that drives trust, a clear CTA text, and 3 key value propositions. 
-                Return strictly JSON.`,
-                config: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: Type.OBJECT,
-                        properties: {
-                            title: { type: Type.STRING },
-                            headline: { type: Type.STRING },
-                            subheadline: { type: Type.STRING },
-                            cta: { type: Type.STRING },
-                            features: { type: Type.ARRAY, items: { type: Type.STRING } }
-                        },
-                        required: ["title", "headline", "subheadline", "cta", "features"]
-                    }
-                }
-            });
-            
-            const text = response.text;
-            if (!text) throw new Error("Empty response from AI");
-            setGeneratedPage(JSON.parse(text));
-        } catch (e) {
-            console.error(e);
-        } finally {
-            setIsGenerating(false);
-        }
+  if (!prompt) return;
+  setIsGenerating(true);
+
+  const fallback: GeneratedPage = {
+    title: "Payment Experience",
+    headline: "Move money globally with confidence.",
+    subheadline: "Institution-grade routing, real-time controls, and compliance-first settlement.",
+    cta: "Get Started",
+    features: ["Instant settlement", "Multi-corridor FX", "Risk & compliance controls"],
+  };
+
+  try {
+    const res = await fetch("/api/ai/insights", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: `Return STRICT JSON only with keys:
+title, headline, subheadline, cta, features (array of 3 strings).
+
+Create a professional payment landing page for: "${prompt}".
+Theme Style requested: ${activeTheme}.
+Include a compelling headline, a trust-building subheadline, a clear CTA, and 3 key value propositions.`,
+      }),
+    });
+
+    if (!res.ok) {
+      setGeneratedPage(fallback);
+      return;
+    }
+
+    const data = await res.json();
+
+    const parsed: GeneratedPage = {
+      title: data?.title ?? fallback.title,
+      headline: data?.headline ?? fallback.headline,
+      subheadline: data?.subheadline ?? fallback.subheadline,
+      cta: data?.cta ?? fallback.cta,
+      features: Array.isArray(data?.features) ? data.features.slice(0, 3) : fallback.features,
     };
+
+    setGeneratedPage(parsed);
+  } catch (e) {
+    console.error(e);
+    setGeneratedPage(fallback);
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
+
 
     const handleSimulatePreviewPayment = async () => {
         setIsSimulatingPay(true);
