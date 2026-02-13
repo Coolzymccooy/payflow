@@ -39,6 +39,7 @@ import { LiveSupport } from './components/LiveSupport';
 import { PublicLanding } from './components/PublicLanding';
 import { AuthFlow } from './components/AuthFlow';
 import { Reporting } from './components/Reporting';
+import { AdminDashboard } from './components/AdminDashboard';
 import { BackendService } from './services/backend';
 import "./index.css";
 
@@ -172,6 +173,8 @@ const App: React.FC = () => {
         return <Disputes addNotification={addNotification} />;
       case ViewState.DEVELOPERS:
         return <Developers addNotification={addNotification} />;
+      case ViewState.ADMIN_DASHBOARD:
+        return <AdminDashboard />;
       case ViewState.HELP:
         return <HelpCorner onChangeView={setCurrentView} />;
       case ViewState.PITCH_DECK:
