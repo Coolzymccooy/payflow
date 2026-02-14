@@ -54,6 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isO
     { id: ViewState.DISPUTES, label: 'Disputes', icon: ShieldAlert, roles: ['ADMIN', 'FINANCE'], entitlement: 'CORE_PAYMENTS' as Entitlement },
     { id: ViewState.INSIGHTS, label: 'AI Intelligence', icon: Sparkles, roles: ['ADMIN', 'FINANCE', 'VIEWER'], entitlement: 'AI_SENTINEL' as Entitlement },
     { id: ViewState.DEVELOPERS, label: 'Developers', icon: Code, roles: ['ADMIN', 'DEVELOPER'], entitlement: 'CORE_PAYMENTS' as Entitlement },
+    { id: ViewState.ADMIN_DASHBOARD, label: 'Admin Console', icon: ShieldAlert, roles: ['ADMIN'], entitlement: 'CORE_PAYMENTS' as Entitlement },
     { id: ViewState.SETTINGS, label: 'Settings', icon: Settings, roles: ['ADMIN', 'FINANCE', 'DEVELOPER'], entitlement: 'CORE_PAYMENTS' as Entitlement },
     { id: ViewState.HELP, label: 'Knowledge Hub', icon: HelpCircle, roles: ['ADMIN', 'FINANCE', 'HR', 'DEVELOPER', 'VIEWER'], entitlement: 'CORE_PAYMENTS' as Entitlement },
   ];
